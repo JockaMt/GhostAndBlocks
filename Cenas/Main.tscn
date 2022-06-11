@@ -1,0 +1,442 @@
+[gd_scene load_steps=33 format=2]
+
+[ext_resource path="res://Jogador/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Sprites/Square.png" type="Texture" id=2]
+[ext_resource path="res://Cenas/Squares/square.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Cenas/Main.gd" type="Script" id=4]
+[ext_resource path="res://Sprites/Square2.png" type="Texture" id=5]
+[ext_resource path="res://Fonts/04B_19__.TTF" type="DynamicFontData" id=6]
+[ext_resource path="res://Sprites/reloadPressed.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/home.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/reload.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/ArrowLeftPressed.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/ArrowLeft.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/ArrowRight.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/ArrowRightPressed.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/taça.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/heart.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/uiElements.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/pause.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/homePressed.png" type="Texture" id=18]
+
+[sub_resource type="CanvasItemMaterial" id=6]
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 1 ), 0.0, -0.511131, 0, 0, Vector2( 1, 0.477273 ), -0.540159, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0.657459, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.558011, 1, 1, 1, 0 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 962.5, 90.5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 36, 603.25 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 72
+font_data = ExtResource( 6 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 16 )
+region = Rect2( 8, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 16 )
+region = Rect2( 16, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 16 )
+region = Rect2( 24, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 16 )
+region = Rect2( 32, 0, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 16 )
+region = Rect2( 40, 0, 8, 8 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 26
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 100
+use_filter = true
+font_data = ExtResource( 6 )
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 4 )
+_squares = ExtResource( 3 )
+_points = NodePath("CanvasLayer/HUD/RichTextLabel")
+_timer = NodePath("Timer")
+_lifes = NodePath("CanvasLayer/HUD/vidas/RichTextLabel-2")
+_highscore = NodePath("CanvasLayer/HUD/record/RichTextLabel-2")
+_music = NodePath("CanvasLayer/Tools/msc")
+_sfx = NodePath("CanvasLayer/Tools/sfx")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+modulate = Color( 1, 1, 1, 0.137255 )
+material = SubResource( 6 )
+position = Vector2( 371, 1308 )
+amount = 15
+lifetime = 1.5
+texture = ExtResource( 5 )
+normalmap = ExtResource( 5 )
+emission_shape = 2
+emission_rect_extents = Vector2( 360, 1 )
+direction = Vector2( 0, -1 )
+spread = 20.23
+gravity = Vector2( 0, 0 )
+initial_velocity = 403.67
+angular_velocity = 158.53
+angular_velocity_random = 1.0
+scale_amount = 4.0
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 371, 1087 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["Floor"]]
+position = Vector2( 398, 1207 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -27, 60.5 )
+shape = SubResource( 1 )
+
+[node name="Sprite-3" type="Sprite" parent="StaticBody2D"]
+modulate = Color( 0.121569, 0.12549, 0.14902, 1 )
+position = Vector2( 12, 416 )
+scale = Vector2( 130.688, 55.75 )
+texture = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+modulate = Color( 0.0980392, 0.101961, 0.117647, 1 )
+position = Vector2( -948, 0 )
+scale = Vector2( 7.5, 7.5 )
+texture = ExtResource( 2 )
+
+[node name="Sprite-2" type="Sprite" parent="StaticBody2D"]
+modulate = Color( 0.0980392, 0.101961, 0.117647, 1 )
+position = Vector2( 972, 0 )
+scale = Vector2( 7.5, 7.5 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D-2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -434, -642 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D-3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 358, -641.5 )
+shape = SubResource( 2 )
+
+[node name="CanvasLayer-2" type="CanvasLayer" parent="."]
+layer = -50
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer-2"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.811765, 0.666667, 0.32549, 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause" type="Control" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Pause"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Pause"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -50.0
+margin_top = -165.0
+margin_right = 50.0
+margin_bottom = -65.0
+texture = ExtResource( 17 )
+expand = true
+stretch_mode = 6
+
+[node name="Home" type="TextureButton" parent="CanvasLayer/Pause"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = 79.0
+margin_right = 161.0
+margin_bottom = 225.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 18 )
+expand = true
+stretch_mode = 5
+
+[node name="Reload" type="TextureButton" parent="CanvasLayer/Pause"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = 79.0
+margin_right = -10.0
+margin_bottom = 225.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 7 )
+expand = true
+stretch_mode = 5
+
+[node name="Tween" type="Tween" parent="CanvasLayer"]
+
+[node name="GameOver" type="Control" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 360, 640 )
+mouse_filter = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/GameOver"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -360.0
+margin_top = -165.0
+margin_right = 360.0
+margin_bottom = -53.0
+rect_pivot_offset = Vector2( 360, 56 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "[center][wave]GameOver"
+text = "GameOver"
+
+[node name="Reload" type="TextureButton" parent="CanvasLayer/GameOver"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -173.0
+margin_top = -14.0
+margin_right = -22.0
+margin_bottom = 132.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 5 )
+expand = true
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GameOver/Reload"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 6
+
+[node name="Home" type="TextureButton" parent="CanvasLayer/GameOver"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 22.0
+margin_top = -14.0
+margin_right = 173.0
+margin_bottom = 132.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 5 )
+expand = true
+stretch_mode = 5
+
+[node name="TextureRect-2" type="TextureRect" parent="CanvasLayer/GameOver/Home"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+
+[node name="Tools" type="Control" parent="CanvasLayer"]
+pause_mode = 2
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -720.0
+mouse_filter = 2
+
+[node name="msc" type="TextureButton" parent="CanvasLayer/Tools"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -56.0
+margin_top = 161.0
+margin_right = -16.0
+margin_bottom = 201.0
+toggle_mode = true
+texture_normal = SubResource( 11 )
+texture_pressed = SubResource( 13 )
+expand = true
+stretch_mode = 5
+
+[node name="sfx" type="TextureButton" parent="CanvasLayer/Tools"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -56.0
+margin_top = 207.0
+margin_right = -16.0
+margin_bottom = 247.0
+toggle_mode = true
+texture_normal = SubResource( 12 )
+texture_pressed = SubResource( 14 )
+expand = true
+stretch_mode = 5
+
+[node name="TextureButton-3" type="TextureButton" parent="CanvasLayer/Tools"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -56.0
+margin_top = 252.0
+margin_right = -16.0
+margin_bottom = 292.0
+toggle_mode = true
+texture_normal = SubResource( 9 )
+texture_pressed = SubResource( 15 )
+expand = true
+stretch_mode = 5
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+
+[node name="record" type="TextureRect" parent="CanvasLayer/HUD"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -175.0
+margin_top = 74.0
+margin_right = -6.0
+margin_bottom = 136.0
+texture = ExtResource( 14 )
+expand = true
+stretch_mode = 6
+
+[node name="RichTextLabel-2" type="Label" parent="CanvasLayer/HUD/record"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -161.0
+margin_top = -8.0
+margin_right = -55.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 53, 14 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+custom_fonts/font = SubResource( 5 )
+text = "0"
+align = 2
+valign = 1
+clip_text = true
+
+[node name="vidas" type="TextureRect" parent="CanvasLayer/HUD"]
+margin_left = 17.0
+margin_top = 74.0
+margin_right = 186.0
+margin_bottom = 136.0
+texture = ExtResource( 15 )
+expand = true
+stretch_mode = 6
+
+[node name="RichTextLabel-2" type="Label" parent="CanvasLayer/HUD/vidas"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 64.0
+margin_top = -8.0
+margin_right = 160.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 53, 14 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+custom_fonts/font = SubResource( 5 )
+text = "3"
+align = 1
+valign = 1
+clip_text = true
+
+[node name="RichTextLabel" type="Label" parent="CanvasLayer/HUD"]
+anchor_right = 1.0
+margin_top = 59.0
+margin_bottom = 171.0
+rect_pivot_offset = Vector2( 360, 56 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+custom_fonts/font = SubResource( 3 )
+text = "0"
+align = 1
+valign = 1
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+
+[node name="left" type="TouchScreenButton" parent="CanvasLayer/Control"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 46, -254 )
+scale = Vector2( 9.5, 9.5 )
+normal = ExtResource( 11 )
+pressed = ExtResource( 10 )
+visibility_mode = 1
+
+[node name="right" type="TouchScreenButton" parent="CanvasLayer/Control"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 516, -254 )
+scale = Vector2( 9.5, 9.5 )
+normal = ExtResource( 12 )
+pressed = ExtResource( 13 )
+visibility_mode = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="pressed" from="CanvasLayer/Pause/Home" to="." method="_on_Home_pressed"]
+[connection signal="pressed" from="CanvasLayer/Pause/Reload" to="." method="_on_Reload_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameOver/Reload" to="." method="_on_Reload_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameOver/Home" to="." method="_on_Home_pressed"]
+[connection signal="toggled" from="CanvasLayer/Tools/msc" to="." method="_on_TextureButton_toggled"]
+[connection signal="toggled" from="CanvasLayer/Tools/sfx" to="." method="_on_TextureButton2_toggled"]
+[connection signal="toggled" from="CanvasLayer/Tools/TextureButton-3" to="." method="_on_TextureButton3_toggled"]
+[connection signal="pressed" from="CanvasLayer/Control/left" to="." method="_on_left_pressed"]
+[connection signal="released" from="CanvasLayer/Control/left" to="." method="_on_left_released"]
+[connection signal="pressed" from="CanvasLayer/Control/right" to="." method="_on_right_pressed"]
+[connection signal="released" from="CanvasLayer/Control/right" to="." method="_on_right_released"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

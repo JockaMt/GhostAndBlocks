@@ -1,0 +1,87 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Jogador/Player.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/cesto.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/player.png" type="Texture" id=3]
+[ext_resource path="res://Sounds/Pick.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/Life.wav" type="AudioStream" id=5]
+[ext_resource path="res://Misc/PopLabel.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Sounds/Damage.wav" type="AudioStream" id=7]
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 4 ), 0.0, 0.0, 0, 0, Vector2( 0, 0.934091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.325 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=7]
+colors = PoolColorArray( 1, 1, 1, 0.560784, 1, 1, 1, 0 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 32, 7.5 )
+
+[sub_resource type="SegmentShape2D" id=5]
+a = Vector2( -38, -7 )
+b = Vector2( 38, -7 )
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+_popLabel = ExtResource( 6 )
+_damage = NodePath("damage")
+_pick = NodePath("pick")
+_life = NodePath("life")
+_sprite = NodePath("Sprite")
+_sprite_cesta = NodePath("Area2D/Square")
+_particulas = NodePath("CPUParticles2D")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( 0, -61 )
+amount = 4
+lifetime = 0.5
+local_coords = false
+texture = ExtResource( 3 )
+gravity = Vector2( 0, 0 )
+angular_velocity = 50.0
+angular_velocity_random = 1.0
+scale_amount = 4.0
+scale_amount_curve = SubResource( 6 )
+color_ramp = SubResource( 7 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -64 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -7.5 )
+shape = SubResource( 4 )
+
+[node name="Area2D" type="Area2D" parent="." groups=["player"]]
+position = Vector2( 0, -140 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 5 )
+one_way_collision = true
+
+[node name="Square" type="Sprite" parent="Area2D"]
+position = Vector2( 0, 3.8147e-06 )
+scale = Vector2( 4.75, 4.75 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -6.31579 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="damage" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -2.0
+bus = "SFX"
+
+[node name="life" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -2.0
+bus = "SFX"
+
+[node name="pick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -2.0
+bus = "SFX"

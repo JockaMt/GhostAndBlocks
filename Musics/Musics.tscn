@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Musics/Rhythm.wav" type="AudioStream" id=1]
+[ext_resource path="res://Musics/Musics.gd" type="Script" id=2]
+[ext_resource path="res://Musics/Drums.wav" type="AudioStream" id=3]
+
+[node name="Musics" type="Node"]
+pause_mode = 2
+script = ExtResource( 2 )
+_Rhythm = NodePath("Rhythm")
+_Drums = NodePath("Drums")
+
+[node name="Rhythm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -4.0
+autoplay = true
+bus = "Music"
+
+[node name="Drums" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -80.0
+autoplay = true
+bus = "Music"
+
+[node name="Tween" type="Tween" parent="."]

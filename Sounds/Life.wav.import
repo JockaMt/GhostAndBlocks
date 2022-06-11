@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Life.wav-c1f724c9c17298a1e90f6c9adb87ec24.sample"
+
+[deps]
+
+source_file="res://Sounds/Life.wav"
+dest_files=[ "res://.import/Life.wav-c1f724c9c17298a1e90f6c9adb87ec24.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
