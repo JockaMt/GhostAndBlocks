@@ -40,6 +40,12 @@ onready var msc = get_node(_music) as TextureButton
 export(NodePath) var _sfx
 onready var sfx = get_node(_sfx) as TextureButton
 
+export(NodePath) var _pause
+onready var pause = get_node(_pause) as TextureButton
+
+export(NodePath) var _sound
+onready var sound = get_node(_sound) as AudioStreamPlayer
+
 signal _right
 signal _left
 
@@ -98,7 +104,7 @@ func _difficulty_1():
 
 func _difficulty_2():
 	var difficultor = randi() % 100
-	if difficultor > 80:
+	if difficultor > 90:
 		tim.stop()
 		yield(get_tree().create_timer(0.8),"timeout")
 		tim.start()
@@ -140,6 +146,7 @@ func _on_Timer_timeout():
 		tim.stop()
 
 func _on_Reload_pressed():
+	_play_sound()
 	Musics.unmute()
 	get_tree().paused = false
 	var _reload = get_tree().reload_current_scene()
@@ -160,12 +167,14 @@ func gameover():
 		playing = false
 
 func _on_Home_pressed():
+	_play_sound()
 	Musics.mute()
 	get_tree().paused = false
 	var _menu = get_tree().change_scene("res://Cenas/Menu.tscn")
 
 #-----Pausa-----
 func _on_TextureButton3_toggled(button_pressed):
+	_play_sound()
 	Musics.paused(button_pressed)
 	$CanvasLayer/Pause.visible = button_pressed
 	get_tree().paused = button_pressed
@@ -183,7 +192,19 @@ func _on_left_released():
 	emit_signal("_left", 0)
 
 func _on_TextureButton_toggled(button_pressed):
+	_play_sound()
 	Global.mute_music(button_pressed)
 
 func _on_TextureButton2_toggled(button_pressed):
+	_play_sound()
 	Global.mute_sxf(button_pressed)
+
+func _on_TextureButton_pressed():
+	_play_sound()
+	Musics.paused(false)
+	$CanvasLayer/Pause.visible = false
+	get_tree().paused = false
+	pause.pressed = false
+
+func _play_sound():
+	sound.play()

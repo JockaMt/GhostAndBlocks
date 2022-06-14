@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Sprites/Sprite-0001-Sheet.png" type="Texture" id=1]
+[ext_resource path="res://Cenas/Squares/SquareFall.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/Square.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Square2.png" type="Texture" id=4]
+
+[sub_resource type="CanvasItemMaterial" id=3]
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="CanvasItemMaterial" id=6]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 0.703409 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.248864 ), -0.811364, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=7]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.235294 )
+
+[node name="Area2D" type="Area2D"]
+scale = Vector2( 3, 3 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+_particles = NodePath("CPUParticles2D")
+_particles_2 = NodePath("CPUParticles2D-2")
+_sprite = NodePath("Square")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+material = SubResource( 3 )
+emitting = false
+amount = 1
+lifetime = 0.2
+one_shot = true
+local_coords = false
+draw_order = 1
+texture = ExtResource( 1 )
+gravity = Vector2( 0, 0 )
+scale_amount = 5.0
+anim_speed = 1.0
+
+[node name="Square" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="CPUParticles2D-2" type="CPUParticles2D" parent="."]
+material = SubResource( 6 )
+amount = 3
+lifetime = 0.5
+local_coords = false
+texture = ExtResource( 4 )
+gravity = Vector2( 0, 0 )
+angular_velocity = 200.0
+angular_velocity_random = 1.0
+scale_amount = 2.5
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 7 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_Area2D_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

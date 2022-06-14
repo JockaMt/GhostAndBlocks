@@ -32,6 +32,7 @@ func _on_Area2D_body_entered(body):
 				part.emitting = true
 				part2.emitting = false
 				get_parent().get_node("Player")._take_damage(1)
+				Input.vibrate_handheld(80)
 				get_node("CollisionShape2D").queue_free()
 
 func _on_VisibilityNotifier2D_screen_exited():
@@ -53,6 +54,7 @@ func _on_Area2D_area_entered(area):
 				part.emitting = true
 				part2.emitting = false
 				area.get_parent()._take_damage(damage)
+				Input.vibrate_handheld(80)
 				get_node("CollisionShape2D").queue_free()
 		elif life:
 			if get_parent().playing:

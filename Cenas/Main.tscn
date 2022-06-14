@@ -1,7 +1,7 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Jogador/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Square.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Atention.png" type="Texture" id=2]
 [ext_resource path="res://Cenas/Squares/square.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Cenas/Main.gd" type="Script" id=4]
 [ext_resource path="res://Sprites/Square2.png" type="Texture" id=5]
@@ -16,8 +16,12 @@
 [ext_resource path="res://Sprites/taça.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/heart.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/uiElements.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/pause.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/PlayPressed.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/homePressed.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/Play.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/Floor1.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/Floor.png" type="Texture" id=21]
+[ext_resource path="res://Musics/click.wav" type="AudioStream" id=22]
 
 [sub_resource type="CanvasItemMaterial" id=6]
 
@@ -33,6 +37,10 @@ extents = Vector2( 962.5, 90.5 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 36, 603.25 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 70
+font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 72
@@ -72,6 +80,36 @@ size = 100
 use_filter = true
 font_data = ExtResource( 6 )
 
+[sub_resource type="TileSet" id=17]
+0/name = "Floor.png 0"
+0/texture = ExtResource( 21 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "Floor1.png 1"
+1/texture = ExtResource( 20 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 0, 0, 32, 32 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
 _squares = ExtResource( 3 )
@@ -81,6 +119,8 @@ _lifes = NodePath("CanvasLayer/HUD/vidas/RichTextLabel-2")
 _highscore = NodePath("CanvasLayer/HUD/record/RichTextLabel-2")
 _music = NodePath("CanvasLayer/Tools/msc")
 _sfx = NodePath("CanvasLayer/Tools/sfx")
+_pause = NodePath("CanvasLayer/Tools/TextureButton-3")
+_sound = NodePath("Sound")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 modulate = Color( 1, 1, 1, 0.137255 )
@@ -103,7 +143,7 @@ scale_amount_curve = SubResource( 7 )
 color_ramp = SubResource( 8 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 371, 1087 )
+position = Vector2( 357, 1173 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." groups=["Floor"]]
 position = Vector2( 398, 1207 )
@@ -111,24 +151,6 @@ position = Vector2( 398, 1207 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( -27, 60.5 )
 shape = SubResource( 1 )
-
-[node name="Sprite-3" type="Sprite" parent="StaticBody2D"]
-modulate = Color( 0.121569, 0.12549, 0.14902, 1 )
-position = Vector2( 12, 416 )
-scale = Vector2( 130.688, 55.75 )
-texture = ExtResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="StaticBody2D"]
-modulate = Color( 0.0980392, 0.101961, 0.117647, 1 )
-position = Vector2( -948, 0 )
-scale = Vector2( 7.5, 7.5 )
-texture = ExtResource( 2 )
-
-[node name="Sprite-2" type="Sprite" parent="StaticBody2D"]
-modulate = Color( 0.0980392, 0.101961, 0.117647, 1 )
-position = Vector2( 972, 0 )
-scale = Vector2( 7.5, 7.5 )
-texture = ExtResource( 2 )
 
 [node name="CollisionShape2D-2" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( -434, -642 )
@@ -160,29 +182,48 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.588235 )
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Pause"]
+[node name="TextureRect" type="Label" parent="CanvasLayer/Pause"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -50.0
-margin_top = -165.0
-margin_right = 50.0
+margin_left = -100.0
+margin_top = -146.0
+margin_right = 100.0
 margin_bottom = -65.0
-texture = ExtResource( 17 )
-expand = true
-stretch_mode = 6
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 16 )
+text = "	PAUSA"
 
-[node name="Home" type="TextureButton" parent="CanvasLayer/Pause"]
-pause_mode = 2
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Pause"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 10.0
-margin_top = 79.0
-margin_right = 161.0
-margin_bottom = 225.0
+margin_left = -158.0
+margin_top = 80.0
+margin_right = 158.0
+margin_bottom = 180.0
+
+[node name="Reload" type="TextureButton" parent="CanvasLayer/Pause/HBoxContainer"]
+pause_mode = 2
+margin_right = 100.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 7 )
+expand = true
+stretch_mode = 5
+
+[node name="Home" type="TextureButton" parent="CanvasLayer/Pause/HBoxContainer"]
+pause_mode = 2
+margin_left = 108.0
+margin_right = 208.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
@@ -191,21 +232,14 @@ texture_pressed = ExtResource( 18 )
 expand = true
 stretch_mode = 5
 
-[node name="Reload" type="TextureButton" parent="CanvasLayer/Pause"]
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Pause/HBoxContainer"]
 pause_mode = 2
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -161.0
-margin_top = 79.0
-margin_right = -10.0
-margin_bottom = 225.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-enabled_focus_mode = 0
-texture_normal = ExtResource( 9 )
-texture_pressed = ExtResource( 7 )
+margin_left = 216.0
+margin_right = 316.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+texture_normal = ExtResource( 19 )
+texture_pressed = ExtResource( 17 )
 expand = true
 stretch_mode = 5
 
@@ -218,15 +252,20 @@ anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 360, 640 )
 mouse_filter = 1
 
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GameOver"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.588235 )
+
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/GameOver"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -360.0
-margin_top = -165.0
+margin_top = -149.0
 margin_right = 360.0
-margin_bottom = -53.0
+margin_bottom = -37.0
 rect_pivot_offset = Vector2( 360, 56 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 3
@@ -236,53 +275,50 @@ bbcode_enabled = true
 bbcode_text = "[center][wave]GameOver"
 text = "GameOver"
 
-[node name="Reload" type="TextureButton" parent="CanvasLayer/GameOver"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GameOver"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -173.0
-margin_top = -14.0
-margin_right = -22.0
-margin_bottom = 132.0
+margin_left = -158.0
+margin_top = 80.0
+margin_right = 158.0
+margin_bottom = 180.0
+
+[node name="Reload" type="TextureButton" parent="CanvasLayer/GameOver/HBoxContainer"]
+margin_right = 100.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 5 )
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 7 )
 expand = true
 stretch_mode = 5
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GameOver/Reload"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 9 )
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/GameOver/HBoxContainer"]
+margin_left = 108.0
+margin_right = 208.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 2 )
 expand = true
-stretch_mode = 6
+stretch_mode = 5
 
-[node name="Home" type="TextureButton" parent="CanvasLayer/GameOver"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 22.0
-margin_top = -14.0
-margin_right = 173.0
-margin_bottom = 132.0
+[node name="Home" type="TextureButton" parent="CanvasLayer/GameOver/HBoxContainer"]
+margin_left = 216.0
+margin_right = 316.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 5 )
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 18 )
 expand = true
 stretch_mode = 5
-
-[node name="TextureRect-2" type="TextureRect" parent="CanvasLayer/GameOver/Home"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 8 )
-expand = true
-stretch_mode = 6
 
 [node name="Tools" type="Control" parent="CanvasLayer"]
 pause_mode = 2
@@ -294,10 +330,11 @@ mouse_filter = 2
 [node name="msc" type="TextureButton" parent="CanvasLayer/Tools"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -56.0
+margin_left = -70.0
 margin_top = 161.0
-margin_right = -16.0
-margin_bottom = 201.0
+margin_right = -20.0
+margin_bottom = 211.0
+rect_min_size = Vector2( 50, 50 )
 toggle_mode = true
 texture_normal = SubResource( 11 )
 texture_pressed = SubResource( 13 )
@@ -307,10 +344,11 @@ stretch_mode = 5
 [node name="sfx" type="TextureButton" parent="CanvasLayer/Tools"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -56.0
-margin_top = 207.0
-margin_right = -16.0
-margin_bottom = 247.0
+margin_left = -70.0
+margin_top = 215.0
+margin_right = -20.0
+margin_bottom = 265.0
+rect_min_size = Vector2( 50, 50 )
 toggle_mode = true
 texture_normal = SubResource( 12 )
 texture_pressed = SubResource( 14 )
@@ -320,10 +358,11 @@ stretch_mode = 5
 [node name="TextureButton-3" type="TextureButton" parent="CanvasLayer/Tools"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -56.0
-margin_top = 252.0
-margin_right = -16.0
-margin_bottom = 292.0
+margin_left = -70.0
+margin_top = 271.0
+margin_right = -20.0
+margin_bottom = 321.0
+rect_min_size = Vector2( 50, 50 )
 toggle_mode = true
 texture_normal = SubResource( 9 )
 texture_pressed = SubResource( 15 )
@@ -428,10 +467,23 @@ visibility_mode = 1
 wait_time = 2.0
 autostart = true
 
-[connection signal="pressed" from="CanvasLayer/Pause/Home" to="." method="_on_Home_pressed"]
-[connection signal="pressed" from="CanvasLayer/Pause/Reload" to="." method="_on_Reload_pressed"]
-[connection signal="pressed" from="CanvasLayer/GameOver/Reload" to="." method="_on_Reload_pressed"]
-[connection signal="pressed" from="CanvasLayer/GameOver/Home" to="." method="_on_Home_pressed"]
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( 0, 56 )
+scale = Vector2( 5, 5 )
+tile_set = SubResource( 17 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( 524285, 0, 0, 524286, 0, 0, 524287, 0, 0, 458752, 0, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 589821, 1, 0, 589822, 1, 0, 589823, 1, 0, 524288, 1, 0, 524289, 1, 0, 524290, 1, 0, 524291, 1, 0, 524292, 1, 0, 524293, 1, 0, 524294, 1, 0, 524295, 1, 0, 655357, 1, 0, 655358, 1, 0, 655359, 1, 0, 589824, 1, 0, 589825, 1, 0, 589826, 1, 0, 589827, 1, 0, 589828, 1, 0, 589829, 1, 0, 589830, 1, 0, 589831, 1, 0, 720893, 1, 0, 720894, 1, 0, 720895, 1, 0, 655360, 1, 0, 655361, 1, 0, 655362, 1, 0, 655363, 1, 0, 655364, 1, 0, 655365, 1, 0, 655366, 1, 0, 655367, 1, 0 )
+
+[node name="Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 22 )
+bus = "SFX"
+
+[connection signal="pressed" from="CanvasLayer/Pause/HBoxContainer/Reload" to="." method="_on_Reload_pressed"]
+[connection signal="pressed" from="CanvasLayer/Pause/HBoxContainer/Home" to="." method="_on_Home_pressed"]
+[connection signal="pressed" from="CanvasLayer/Pause/HBoxContainer/TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameOver/HBoxContainer/Reload" to="." method="_on_Reload_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameOver/HBoxContainer/Home" to="." method="_on_Home_pressed"]
 [connection signal="toggled" from="CanvasLayer/Tools/msc" to="." method="_on_TextureButton_toggled"]
 [connection signal="toggled" from="CanvasLayer/Tools/sfx" to="." method="_on_TextureButton2_toggled"]
 [connection signal="toggled" from="CanvasLayer/Tools/TextureButton-3" to="." method="_on_TextureButton3_toggled"]

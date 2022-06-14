@@ -27,5 +27,12 @@ func _process(_delta):
 
 func _on_Button_pressed():
 	if Global.highscore >= item_price:
+		$sound.play()
 		Global.skinSelected = self.id
-	
+
+func _on_Button_button_down():
+	if Global.highscore < item_price:
+		Input.vibrate_handheld(150)
+		var tw = get_node("Tween")
+		tw.interpolate_property($Button, "modulate", Color(1, 0, 0, 1), Color(1, 1, 1, 1), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		tw.start()
