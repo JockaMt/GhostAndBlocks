@@ -180,37 +180,17 @@ func _on_LineEditdev_text_changed(new_text):
 	senha = str(new_text)
 
 func _on_LineEditdev_focus_entered():
-	var tw = get_node("Tween")
-	tw.interpolate_property(devPop, "rect_position", Vector2(8.5, 486), Vector2(8.5, 186), 0.4,Tween.TRANS_BACK, Tween.EASE_IN_OUT)
-	tw.start()
+	pass
 
 func _on_LineEditdev_focus_exited():
-	var tw = get_node("Tween")
-	tw.interpolate_property(devPop, "rect_position", Vector2(8.5, 186), Vector2(8.5, 486), 0.4,Tween.TRANS_BACK, Tween.EASE_IN_OUT)
-	tw.start()
+	pass
 
 func _show_mensage(confirm):
-	if confirm:
-		$CanvasLayer/Extra/DevMensage.text = "Wipe Leaderboard!"
-		$CanvasLayer/Extra/DevMensage.modulate = Color.green
-	else:
-		$CanvasLayer/Extra/DevMensage.text = "Access Denied!"
-		$CanvasLayer/Extra/DevMensage.modulate = Color.red
-	$CanvasLayer/Extra/DevMensage.visible = true
-	var tw = get_node("Tween")
-	tw.interpolate_property($CanvasLayer/Extra/DevMensage, "modulate", Color($CanvasLayer/Extra/DevMensage.modulate), Color.transparent, 2,Tween.TRANS_LINEAR, Tween.EASE_IN)
-	tw.start()
+	var info = confirm
+	pass
 
 func _on_devEnviar_pressed():
-	if senha == "Mateus&Ticiane0711":
-		SilentWolf.Scores.wipe_leaderboard()
-		hsScreen.clear_leaderboard()
-		devSc.hide()
-		_show_mensage(true)
-	else:
-		_show_mensage(false)
-		devSc.hide()
+	pass
 
 func _on_WipeLeaderboard_pressed():
-	popthing(devPop)
-	devSc.show()
+	pass
